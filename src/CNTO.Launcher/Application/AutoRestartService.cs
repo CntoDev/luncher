@@ -10,7 +10,9 @@ namespace CNTO.Launcher.Application
         private readonly IExecutionContextStore _executionContextStore;
         private readonly ILogger<AutoRestartService> _logger;
 
-        public AutoRestartService(LauncherService launcherService, IExecutionContextStore executionContextStore, ILogger<AutoRestartService> logger)
+        public AutoRestartService(LauncherService launcherService,
+                                  IExecutionContextStore executionContextStore,
+                                  ILogger<AutoRestartService> logger)
         {
             _launcherService = launcherService;
             _executionContextStore = executionContextStore;
@@ -19,7 +21,7 @@ namespace CNTO.Launcher.Application
 
         public async Task RestartAsync()
         {
-            _logger.LogInformation("Restarting services from autorestart service.");
+            _logger.LogWarning("Restarting server...");
             StartServerCommand command = _executionContextStore.GetLastRunningCommand();
             await _launcherService.StartServerAsync(command.SelectedRepositories, command.Dlcs, command.NumberOfClients);
         }

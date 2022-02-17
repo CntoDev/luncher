@@ -49,7 +49,7 @@ namespace CNTO.Launcher.Application
             StartServerCommand startServerCommand = new StartServerCommand(selectedRepositories, dlcs, numberOfClients);
             _executionContextStore.Store(startServerCommand);
 
-            _logger.LogInformation("Staring server with parameters {@parameters}.", startServerCommand);
+            _logger.LogInformation("Starting server with parameters {@parameters}.", startServerCommand);
             IEnumerable<Repository> repositoryMetadata = _repositoryCollection.WithId(selectedRepositories);
 
             var server = new ServerBuilder(_launcherParameters.GamePath)

@@ -6,3 +6,4 @@ appsettings.json
 src/CNTO.Launcher.Desktop/*.txt
 src/CNTO.Launcher.Desktop/ExecutionStore.json
 **/*.jpg
+src/CNTO.Launcher.Web/app.db
