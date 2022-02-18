@@ -38,7 +38,8 @@ public class IndexModel : PageModel
     {
         _logger.LogInformation("Starting...");
         List<RepositoryId> repositoryIds = new();
-        repositoryIds.Add(new("main"));
+        repositoryIds.Add(new("Main"));
+        repositoryIds.Add(new("ServerOnly"));
         await _launcherService.StartServerAsync(repositoryIds, new List<Dlc>(), 1);
     }
 }
