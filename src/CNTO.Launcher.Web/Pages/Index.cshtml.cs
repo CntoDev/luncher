@@ -1,10 +1,11 @@
 ﻿using CNTO.Launcher.Application;
 using CNTO.Launcher.Identity;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace CNTO.Launcher.Web.Pages;
 
+[Authorize]
 public class IndexModel : PageModel
 {
     readonly AutoRestartService _autoRestartService;
@@ -36,10 +37,20 @@ public class IndexModel : PageModel
 
     public async Task OnPostStartAsync()
     {
-        _logger.LogInformation("Starting...");
+        _logger.LogInformation("Starting main...");
         List<RepositoryId> repositoryIds = new();
         repositoryIds.Add(new("Main"));
-        repositoryIds.Add(new("ServerOnly"));
+        repositoryIds.Add(new("Server Only"));
         await _launcherService.StartServerAsync(repositoryIds, new List<Dlc>(), 1);
     }
+
+    public async Task OnPostStartCampaignAsync()
+    {
+        _logger.LogInformation("Starting campaign...");
+        List<RepositoryId> repositoryIds = new();
+        repositoryIds.Add(new("Main"));
+        repositoryIds.Add(new("Campaign"));
+        repositoryIds.Add(new("Server Only"));
+        await _launcherService.StartServerAsync(repositoryIds, new List<Dlc>(), 1);
+    }    
 }
