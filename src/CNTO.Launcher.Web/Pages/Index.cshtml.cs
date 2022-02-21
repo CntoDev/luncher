@@ -41,7 +41,7 @@ public class IndexModel : PageModel
         List<RepositoryId> repositoryIds = new();
         repositoryIds.Add(new("Main"));
         repositoryIds.Add(new("Server Only"));
-        await _launcherService.StartServerAsync(repositoryIds, new List<Dlc>(), 1);
+        await _launcherService.StartServerAsync(repositoryIds, new List<Dlc>(), 2);
     }
 
     public async Task OnPostStartCampaignAsync()
@@ -51,6 +51,6 @@ public class IndexModel : PageModel
         repositoryIds.Add(new("Main"));
         repositoryIds.Add(new("Campaign"));
         repositoryIds.Add(new("Server Only"));
-        await _launcherService.StartServerAsync(repositoryIds, new List<Dlc>(), 1);
+        await _launcherService.StartServerAsync(repositoryIds, new List<Dlc>(), 2);
     }    
 }

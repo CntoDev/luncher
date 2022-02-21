@@ -6,13 +6,13 @@ using CNTO.Launcher.Infrastructure;
 using CNTO.Launcher.Application;
 using Serilog;
 using Serilog.Events;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
 
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
     .Enrich.FromLogContext()
     .WriteTo.Console()
     .CreateLogger();
-
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Host.UseSerilog();
@@ -24,8 +24,26 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<ApplicationDbContext>();
-builder.Services.AddRazorPages();
+                .AddEntityFrameworkStores<ApplicationDbContext>();
+
+builder.Services.ConfigureApplicationCookie(options => {
+    options.Cookie.Name = "CntoLuncher";
+    options.LoginPath = "/luncher/Identity/Account/Login";
+    options.LogoutPath = "/luncher/Identity/Account/Logout";
+});
+
+Action<PageRouteModel> mapLuncherAction = pageRouteModel =>
+{
+    foreach (var selectorModel in pageRouteModel.Selectors)
+        if (selectorModel.AttributeRouteModel != null)
+            selectorModel.AttributeRouteModel.Template = "luncher/" + selectorModel.AttributeRouteModel.Template;
+};
+
+builder.Services.AddRazorPages(options =>
+{
+    options.Conventions.AddPageRoute("/Index", "/luncher");
+    options.Conventions.AddAreaFolderRouteModelConvention("Identity", "/", mapLuncherAction);
+});
 
 // Register Luncher services
 LauncherParameters launcherParameters = builder.Configuration.GetSection("Luncher").Get<LauncherParameters>();
