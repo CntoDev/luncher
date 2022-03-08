@@ -4,10 +4,25 @@
     ViewData["Title"] = "Home page";
 }
 
-<div class="text-center">
-    <img src="https://s3.amazonaws.com/files.enjin.com/821401/module_header/26639473/background/websiteowlbanner.png" />
-    <h2 class="display-2">Arma Server Launcher</h2>
+<div>    
+    <h2>Arma Server Launcher</h2>
     <form class="mt-2" method="post">
+        <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" asp-for="Dlcs.Vn" />
+            <label class="form-check-label" for="Dlcs.Vn">Vietnam</label>
+        </div>
+        <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" asp-for="Dlcs.Gm" />
+            <label class="form-check-label" for="Dlcs.Gm">Global Mobilization</label>
+        </div>        
+        <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" asp-for="Dlcs.Csla" />
+            <label class="form-check-label" for="Dlcs.Csla">CSLA</label>
+        </div>  
+        <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" asp-for="Dlcs.Ws" />
+            <label class="form-check-label" for="Dlcs.Ws">Western Sahara</label>
+        </div>          
         <input type="submit" class="btn btn-dark" value="Restart last" asp-page-handler="Restart" />
         <input type="submit" class="btn btn-dark" value="Main" asp-page-handler="Start" />
         <input type="submit" class="btn btn-dark" value="Campaign" asp-page-handler="StartCampaign" />
