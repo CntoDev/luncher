@@ -44,6 +44,10 @@ namespace CNTO.Launcher.Test
             _collection.Setup(m => m.WithId(It.IsAny<IEnumerable<RepositoryId>>())).Returns(new List<Repository>() { _mainRepo, _devRepo });
 
             _processRunnerMock = new Mock<IProcessRunner>();
+
+            _executionContextStoreMock = new Mock<IExecutionContextStore>();
+
+            _loggerMock = new Mock<ILogger<LauncherService>>();
         }
 
         [Test]
