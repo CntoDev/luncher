@@ -7,15 +7,20 @@ using CNTO.Launcher.Application;
 using Serilog;
 using Serilog.Events;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using CNTO.Launcher.Web.Configuration;
+
+var builder = WebApplication.CreateBuilder(args);
+var serilogSettings = builder.Configuration.GetRequiredSection("SerilogSettings").Get<SerilogSettings>();
 
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
     .Enrich.FromLogContext()
     .WriteTo.Console()
+    .WriteTo.File(serilogSettings.FilePath ?? throw new InvalidOperationException("Serilog FilePath must be set."), rollingInterval: RollingInterval.Day)
     .CreateLogger();
 
-var builder = WebApplication.CreateBuilder(args);
 builder.Host.UseSerilog();
+builder.Host.UseWindowsService();
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
